@@ -4,7 +4,7 @@ from __future__ import annotations
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
-DOMAIN = "dining_room_light"
+DOMAIN = "computer_room_light"
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:

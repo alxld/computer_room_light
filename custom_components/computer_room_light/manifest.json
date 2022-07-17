@@ -1,6 +1,6 @@
 {
-  "domain": "dining_room_light",
-  "name": "dining_room_light",
+  "domain": "computer_room_light",
+  "name": "computer_room_light",
   "version": "0.1",
   "config_flow": false,
   "documentation": "https://www.home-assistant.io/integrations/new_light",

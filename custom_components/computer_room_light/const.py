@@ -1,3 +1,3 @@
-"""Constants for the dining_room_light integration."""
+"""Constants for the computer_room_light integration."""
 
-DOMAIN = "dining_room_light"
+DOMAIN = "computer_room_light"
