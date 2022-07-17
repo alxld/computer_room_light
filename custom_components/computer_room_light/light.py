@@ -52,8 +52,8 @@ light_entity = "light.computer_room_group"
 mudroom_light_entity = "light.mudroom_low_group"
 living_room_light_entity = "light.living_room_lamps_group"
 # harmony_entity = "remote.theater_harmony_hub"
-# switch_action = "zigbee2mqtt/Dining Room Switch/action"
-# motion_sensor_action = "zigbee2mqtt/Dining Room Motion Sensor"
+# switch_action = "zigbee2mqtt/Computer Room Switch/action"
+# motion_sensor_action = "zigbee2mqtt/Computer Room Motion Sensor"
 brightness_step = 43
 # motion_sensor_brightness = 192
 has_harmony = False
@@ -71,7 +71,7 @@ async def async_setup_platform(
     # We only want this platform to be set up via discovery.
     if discovery_info is None:
         return
-    ent = DiningRoomLight()
+    ent = ComputerRoomLight()
     add_entities([ent])
 
     @callback
@@ -96,13 +96,13 @@ async def async_setup_platform(
         )
 
 
-class DiningRoomLight(LightEntity):
-    """Dining Room Light."""
+class ComputerRoomLight(LightEntity):
+    """Computer Room Light."""
 
     def __init__(self) -> None:
-        """Initialize Dining Room Light."""
+        """Initialize Computer Room Light."""
         self._light = light_entity
-        self._name = "Dining Room"
+        self._name = "Computer Room"
         # self._state = 'off'
         self._brightness = 0
         self._brightness_override = 0
@@ -177,7 +177,16 @@ class DiningRoomLight(LightEntity):
         """Track changes to either the Mudroom or Living Room Lights"""
         ev = this_event.as_dict()
         ns = ev["data"]["new_state"].state
-        _LOGGER.error(f"{self._name} Something changed: {ev}")
+        ent = ev["data"]["entity_id"]
+
+        if ent == mudroom_light_entity:
+            self._mudroom_state = ns
+        elif ent == living_room_light_entity:
+            self._living_room_state = ns
+
+        _LOGGER.error(
+            f"{self._name} MR: {self._mudroom_state}, LR: {self._living_room_state}"
+        )
 
     @property
     def should_poll(self):
