@@ -55,7 +55,7 @@ living_room_light_entity = "light.living_room_lamps_group"
 # switch_action = "zigbee2mqtt/Computer Room Switch/action"
 # motion_sensor_action = "zigbee2mqtt/Computer Room Motion Sensor"
 brightness_step = 43
-# motion_sensor_brightness = 192
+motion_sensor_brightness = 192
 has_harmony = False
 has_motion_sensor = False
 has_switch = False
@@ -187,6 +187,11 @@ class ComputerRoomLight(LightEntity):
         _LOGGER.error(
             f"{self._name} MR: {self._mudroom_state}, LR: {self._living_room_state}"
         )
+
+        if self._mudroom_state == "on" or self._living_room_state == "on":
+            await self.async_turn_on(brightness=motion_sensor_brightness, **kwargs)
+        else:
+            await self.async_turn_off(**kwargs)
 
     @property
     def should_poll(self):
