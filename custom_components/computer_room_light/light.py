@@ -189,9 +189,9 @@ class ComputerRoomLight(LightEntity):
         )
 
         if self._mudroom_state == "on" or self._living_room_state == "on":
-            await self.async_turn_on(brightness=motion_sensor_brightness, **kwargs)
+            await self.async_turn_on(brightness=motion_sensor_brightness)
         else:
-            await self.async_turn_off(**kwargs)
+            await self.async_turn_off()
 
     @property
     def should_poll(self):
