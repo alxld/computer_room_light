@@ -48,15 +48,17 @@ from . import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-light_entity = "light.dining_room_group"
+light_entity = "light.computer_room_group"
+mudroom_light_entity = "light.mudroom_low_group"
+living_room_light_entity = "light.living_room_lamps_group"
 # harmony_entity = "remote.theater_harmony_hub"
-switch_action = "zigbee2mqtt/Dining Room Switch/action"
-motion_sensor_action = "zigbee2mqtt/Dining Room Motion Sensor"
+# switch_action = "zigbee2mqtt/Dining Room Switch/action"
+# motion_sensor_action = "zigbee2mqtt/Dining Room Motion Sensor"
 brightness_step = 43
-motion_sensor_brightness = 192
+# motion_sensor_brightness = 192
 has_harmony = False
-has_motion_sensor = True
-has_switch = True
+has_motion_sensor = False
+has_switch = False
 
 
 async def async_setup_platform(
@@ -124,6 +126,10 @@ class DiningRoomLight(LightEntity):
         self._supported_features |= SUPPORT_TRANSITION
         self._supported_features |= SUPPORT_WHITE_VALUE
 
+        # Record state of mudroom and living room lights
+        self._mudroom_state = None
+        self._living_room_state = None
+
         # Record whether a switch was used to turn on this light
         self.switched_on = False
 
@@ -149,6 +155,13 @@ class DiningRoomLight(LightEntity):
         # Not working.  Light starts up an sends None=>Off, Off=>Off, Off=>On, but not sure if that's always the case
         # event.async_track_state_change_event(self.hass, self._light, self.light_update)
 
+        event.async_track_state_change_event(
+            self.hass, mudroom_light_entity, self.something_changed
+        )
+        event.async_track_state_change_event(
+            self.hass, living_room_light_entity, self.something_changed
+        )
+
     @callback
     async def harmony_update(self, this_event):
         """Track harmony updates"""
@@ -158,6 +171,13 @@ class DiningRoomLight(LightEntity):
             self.harmony_on = True
         else:
             self.harmony_on = False
+
+    @callback
+    async def something_changed(self, this_event):
+        """Track changes to either the Mudroom or Living Room Lights"""
+        ev = this_event.as_dict()
+        ns = ev["data"]["new_state"].state
+        _LOGGER.error(f"{self._name} Something changed: {ev}")
 
     @property
     def should_poll(self):
