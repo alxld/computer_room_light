@@ -25,7 +25,7 @@ async def async_setup_platform(
     add_entities([ent])
 
 
-class ComputerRoomLight(NewEntity):
+class ComputerRoomLight(NewLight):
     """Computer Room Light."""
 
     def __init__(self) -> None:
@@ -35,6 +35,6 @@ class ComputerRoomLight(NewEntity):
         )
 
         self.entities["light.computer_room_group"] = None
-        self.other_light_trackers["light.mudroom_low_group"] = 128
-        self.other_light_trackers["light.living_room_lamps_group"] = 128
+        self.other_light_trackers["light.mudroom_low_group"] = 0
+        self.other_light_trackers["light.living_room_lamps_group"] = 0
         self.track_other_light_off_events = True
