@@ -31,7 +31,7 @@ class ComputerRoomLight(NewLight):
     def __init__(self) -> None:
         """Initialize Computer Room Light."""
         super(ComputerRoomLight, self).__init__(
-            "Computer Room", domain=DOMAIN, debug=True, debug_rl=False
+            "Computer Room", domain=DOMAIN, debug=False, debug_rl=False
         )
 
         self.entities["light.computer_room_group"] = None
