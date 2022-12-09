@@ -39,3 +39,5 @@ class ComputerRoomLight(NewLight):
         #self.other_light_trackers["light.living_room_lamps_group"] = 0
         self.motion_sensors.append("Living Room Motion Sensor")
         self.track_other_light_off_events = True
+
+        self.motion_sensor_brightness = 150
