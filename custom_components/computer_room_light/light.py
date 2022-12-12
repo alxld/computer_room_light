@@ -36,8 +36,9 @@ class ComputerRoomLight(NewLight):
 
         self.entities["light.computer_room_group"] = None
         self.other_light_trackers["light.mudroom_low_group"] = -1
-        #self.other_light_trackers["light.living_room_lamps_group"] = 0
+        # self.other_light_trackers["light.living_room_lamps_group"] = 0
         self.motion_sensors.append("Living Room Motion Sensor")
         self.track_other_light_off_events = True
+        self.motion_disable_entities.append("media_player.sony_bravia_tv")
 
         self.motion_sensor_brightness = 150
